@@ -112,6 +112,9 @@ env.bak/
 venv.bak/
 pyvenv.cfg
 
+#VS Code Settings
+.vscode/
+
 # Spyder project settings
 .spyderproject
 .spyproject
