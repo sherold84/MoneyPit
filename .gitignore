@@ -133,3 +133,6 @@ dmypy.json
 
 # Personal token data
 calendar.dat
+
+# vscode
+.vscode/
