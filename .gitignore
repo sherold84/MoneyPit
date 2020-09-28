@@ -13,6 +13,7 @@ build/
 develop-eggs/
 dist/
 downloads/
+scripts/
 eggs/
 .eggs/
 lib/
@@ -135,3 +136,6 @@ dmypy.json
 
 # Personal token data
 calendar.dat
+
+# vscode
+.vscode/
