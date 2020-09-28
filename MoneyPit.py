@@ -10,10 +10,10 @@ def main(argv):
         scope='https://www.googleapis.com/auth/calendar.readonly')
 
     # Global Variable Definitions
-    email = 'USER@DOMAIN.COM'           #T his should be your gmail address tied to your calendar
+    email = 'USERNAME@DOMAIN.COM'        # This should be your gmail address tied to your calendar
     domain = (email.split("@",1))[1]
     meanSalary = 100000                 #  Modify this to match your company/team's mean salary
-    meanSalaryPeour = round(meanSalary/2080,2)
+    meanSalaryPerHour = round(meanSalary/2080,2)
     totalMeetings = 0
     totalHours = 0
     totalCost = 0
@@ -49,8 +49,8 @@ def main(argv):
                                     acceptedAttendees+=1
                                 else: exit
                             else: exit
-                        #Print each event title, its duration in hours, the number of Company Employees that accepted, and calculate the cost of that meeting based on the meanSalaryPeour global variable
-                        print(event['summary'] + ", " + str(eventDur) + " Hours, " + str(acceptedAttendees) + " " + domain + " Attendees, COST: ${:,.2f}".format(float(acceptedAttendees)*meanSalaryPeour*float(eventDur)))
+                        #Print each event title, its duration in hours, the number of Company Employees that accepted, and calculate the cost of that meeting based on the meanSalaryPerHour global variable
+                        print(event['summary'] + ", " + str(eventDur) + " Hours, " + str(acceptedAttendees) + " " + domain + " Attendees, COST: ${:,.2f}".format(float(acceptedAttendees)*meanSalaryPerHour*float(eventDur)))
                         
                         # Iterate total number of meetings used to calculate cost
                         totalMeetings += 1
@@ -59,7 +59,7 @@ def main(argv):
                         exit
                     # Calculate Hours and Cost of meetings against global variables
                     totalHours += (acceptedAttendees * eventDur)
-                    totalCost += (float(acceptedAttendees) * meanSalaryPeour)
+                    totalCost += (float(acceptedAttendees) * meanSalaryPerHour)
                 else:
                     exit
             # If you have a shit ton of meetings, the google API paginates the responses.  This moves to the next batch of meeting events.
