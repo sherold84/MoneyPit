@@ -5,8 +5,8 @@ Determine how much time and money is spent in the company meetings you attend
 - pip install oauth2client 
 - pip install google-api-python-client
 ## Configuration
-1. Open client_secrets.json and modify client_email to your redhat.com address
+1. Open client_secrets.json and modify client_email to your company address
    - I don't know that this actually matters...
 2. open MoneyPit.py and modify:
    - The email global variable for your account
-   - The Mean Salary for your Compay/Team
+   - The Mean Salary for your Company/Team
