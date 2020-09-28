@@ -10,8 +10,10 @@ def main(argv):
         scope='https://www.googleapis.com/auth/calendar.readonly')
 
     # Global Variable Definitions
-    email = 'USERNAME@redhat.com'
-    meanSalaryPerHour = round(149788/2080,2)
+    email = 'USER@DOMAIN.COM'           #T his should be your gmail address tied to your calendar
+    domain = (email.split("@",1))[1]
+    meanSalary = 100000                 #  Modify this to match your company/team's mean salary
+    meanSalaryPeour = round(meanSalary/2080,2)
     totalMeetings = 0
     totalHours = 0
     totalCost = 0
@@ -35,20 +37,20 @@ def main(argv):
                     eventEndObj = datetime.strptime((event['end'].get('dateTime', event['end'].get('date'))), '%Y-%m-%dT%H:%M:%S%z')
                     eventDur = round((eventEndObj - eventStartObj).total_seconds()/3600,3)
                     
-                    # Initialize variable to track Red Hat Employees that have Accepted the meeting request for the current meeting event
-                    acceptedRHAttendees = 0
+                    # Initialize variable to track Company Employees that have Accepted the meeting request for the current meeting event
+                    acceptedAttendees = 0
 
                     # Solo event/placeholders in the calendar doesn't have an attendees property, so check for that
                     if 'attendees' in event:
                         for i in event['attendees']:
-                            # Iterate the number of Red Hat employees that have Accepted the meeting request
+                            # Iterate the number of Company Employees that have Accepted the meeting request
                             if i['responseStatus'] == 'accepted':
-                                if '@redhat.com' in i['email']:
-                                    acceptedRHAttendees+=1
+                                if '@' + domain in i['email']:
+                                    acceptedAttendees+=1
                                 else: exit
                             else: exit
-                        #Print each event title, its duration in hours, the number of Red Hat Employees that accepted, and calculate the cost of that meeting based on the meanSalaryPerHour global variable
-                        print(event['summary'] + ", " + str(eventDur) + " Hours, " + str(acceptedRHAttendees) + " Red Hat Attendees, COST: ${:,.2f}".format(float(acceptedRHAttendees)*meanSalaryPerHour*float(eventDur)))
+                        #Print each event title, its duration in hours, the number of Company Employees that accepted, and calculate the cost of that meeting based on the meanSalaryPeour global variable
+                        print(event['summary'] + ", " + str(eventDur) + " Hours, " + str(acceptedAttendees) + " " + domain + " Attendees, COST: ${:,.2f}".format(float(acceptedAttendees)*meanSalaryPeour*float(eventDur)))
                         
                         # Iterate total number of meetings used to calculate cost
                         totalMeetings += 1
@@ -56,8 +58,8 @@ def main(argv):
                         # Don't track time or cost for solo events
                         exit
                     # Calculate Hours and Cost of meetings against global variables
-                    totalHours += (acceptedRHAttendees * eventDur)
-                    totalCost += (float(acceptedRHAttendees) * meanSalaryPerHour)
+                    totalHours += (acceptedAttendees * eventDur)
+                    totalCost += (float(acceptedAttendees) * meanSalaryPeour)
                 else:
                     exit
             # If you have a shit ton of meetings, the google API paginates the responses.  This moves to the next batch of meeting events.
