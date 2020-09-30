@@ -10,3 +10,4 @@ Determine how much time and money is spent in the company meetings you attend th
 2. open MoneyPit.py and modify:
    - The email global variable for your account
    - The Mean Salary for your Company/Team
+   - startDays and endDays to determine how many days Back in time to start, and how far into the future to look
