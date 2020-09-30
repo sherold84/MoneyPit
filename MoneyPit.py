@@ -17,9 +17,11 @@ def main(argv):
     totalMeetings = 0
     totalHours = 0
     totalCost = 0
+    startDays = 30                      # Number of days to go back in time to start analyzing - 0 = Today
+    endDays = 0                         # Number of days to go forward in time to start analyzing - 0 = Today
     today = datetime.now(timezone.utc).astimezone().replace(microsecond=0)
-    start = (today - timedelta(7)).isoformat()
-    end = (today + timedelta(7)).isoformat()
+    start = (today - timedelta(startDays)).isoformat()
+    end = (today + timedelta(endDays)).isoformat()
 
     try:
         page_token = None
@@ -32,10 +34,13 @@ def main(argv):
             for event in events['items']:
                 # Cancelled meetings don't show a summary and throw an error, so check that the event has the summary property
                 if 'summary' in event:
-                    # Timey Wimey stuff
-                    eventStartObj = datetime.strptime((event['start'].get('dateTime', event['start'].get('date'))), '%Y-%m-%dT%H:%M:%S%z')
-                    eventEndObj = datetime.strptime((event['end'].get('dateTime', event['end'].get('date'))), '%Y-%m-%dT%H:%M:%S%z')
-                    eventDur = round((eventEndObj - eventStartObj).total_seconds()/3600,3)
+                    # Timey Wimey stuff - Skip meetings that are full day meetings and don't use proper time format - Typically PTO/Vacation stuff
+                    try:
+                        eventStartObj = datetime.strptime((event['start'].get('dateTime', event['start'].get('date'))), '%Y-%m-%dT%H:%M:%S%z')
+                        eventEndObj = datetime.strptime((event['end'].get('dateTime', event['end'].get('date'))), '%Y-%m-%dT%H:%M:%S%z')
+                        eventDur = round((eventEndObj - eventStartObj).total_seconds()/3600,3)
+                    except:
+                        exit
                     
                     # Initialize variable to track Company Employees that have Accepted the meeting request for the current meeting event
                     acceptedAttendees = 0
