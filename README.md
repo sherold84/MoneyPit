@@ -1,5 +1,5 @@
 # MoneyPit
-Determine how much time and money is spent in the company meetings you attend
+Determine how much time and money is spent in the company meetings you attend that are managed by Google Calendar
 ## Required Python libaries
 - pip install datetime 
 - pip install oauth2client 
